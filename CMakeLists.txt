@@ -63,7 +63,9 @@ add_library(mt-nn STATIC
     src/nn/matmul.h
     src/nn/matmul.cpp
     src/nn/linear.h
-    src/nn/linear.cpp)
+    src/nn/linear.cpp
+    src/nn/embedding.h
+    src/nn/embedding.cpp)
 target_include_directories(mt-nn PUBLIC src)
 target_link_libraries(mt-nn PUBLIC mt-tensor)
 target_compile_features(mt-nn PUBLIC cxx_std_20)
@@ -85,7 +87,12 @@ add_executable(linear_test test/linear_test.cpp)
 target_link_libraries(linear_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
 target_compile_features(linear_test PRIVATE cxx_std_20)
 
+add_executable(embedding_test test/embedding_test.cpp)
+target_link_libraries(embedding_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
+target_compile_features(embedding_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
 gtest_discover_tests(linear_test)
+gtest_discover_tests(embedding_test)

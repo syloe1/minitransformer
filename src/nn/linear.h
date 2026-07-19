@@ -60,6 +60,8 @@ public:
   ///
   /// @throws std::invalid_argument if X.ndim() != 2
   /// @throws std::invalid_argument if X.shape()[1] != in_features_
+  // forward推理入口， 线性层向前计算 输入x, 执行y = xw  + b 返回输出张量
+  // 纯只读推理
   [[nodiscard]] auto forward(const Tensor &X) const -> Tensor;
 
   // -------------------------------------------------------------------
@@ -67,7 +69,9 @@ public:
   // -------------------------------------------------------------------
 
   /// Weight matrix  shape [in_features_, out_features_].
+  // 只读版本
   [[nodiscard]] auto weight() const -> const Tensor &;
+  // 可写版本
   [[nodiscard]] auto weight() -> Tensor &;
 
   /// Bias vector  shape [out_features_] (empty when has_bias_ == false).
@@ -75,7 +79,10 @@ public:
   [[nodiscard]] auto bias() -> Tensor &;
 
   /// Read-only metadata.
+  // Read-only metadata
+  // 获取输入维度
   [[nodiscard]] auto in_features() const noexcept -> std::size_t;
+  // 获取输出维度
   [[nodiscard]] auto out_features() const noexcept -> std::size_t;
   [[nodiscard]] auto has_bias() const noexcept -> bool;
 
