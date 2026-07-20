@@ -67,7 +67,9 @@ add_library(mt-nn STATIC
     src/nn/embedding.h
     src/nn/embedding.cpp
     src/nn/softmax.h
-    src/nn/softmax.cpp)
+    src/nn/softmax.cpp
+    src/nn/mlp.h
+    src/nn/mlp.cpp)
 target_include_directories(mt-nn PUBLIC src)
 target_link_libraries(mt-nn PUBLIC mt-tensor)
 target_compile_features(mt-nn PUBLIC cxx_std_20)
@@ -131,6 +133,10 @@ add_executable(rope_test test/rope_test.cpp)
 target_link_libraries(rope_test PRIVATE mt-rope GTest::gtest GTest::gtest_main)
 target_compile_features(rope_test PRIVATE cxx_std_20)
 
+add_executable(mlp_test test/mlp_test.cpp)
+target_link_libraries(mlp_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
+target_compile_features(mlp_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
@@ -140,3 +146,4 @@ gtest_discover_tests(softmax_test)
 gtest_discover_tests(attention_test)
 gtest_discover_tests(multi_head_attention_test)
 gtest_discover_tests(rope_test)
+gtest_discover_tests(mlp_test)
