@@ -77,7 +77,9 @@ target_compile_features(mt-nn PUBLIC cxx_std_20)
 # ---------------------------------------------------------------------------
 add_library(mt-attention STATIC
     src/attention/attention.h
-    src/attention/attention.cpp)
+    src/attention/attention.cpp
+    src/attention/multi_head_attention.h
+    src/attention/multi_head_attention.cpp)
 target_include_directories(mt-attention PUBLIC src)
 target_link_libraries(mt-attention PUBLIC mt-nn)
 target_compile_features(mt-attention PUBLIC cxx_std_20)
@@ -111,6 +113,10 @@ add_executable(attention_test test/attention_test.cpp)
 target_link_libraries(attention_test PRIVATE mt-attention GTest::gtest GTest::gtest_main)
 target_compile_features(attention_test PRIVATE cxx_std_20)
 
+add_executable(multi_head_attention_test test/multi_head_attention_test.cpp)
+target_link_libraries(multi_head_attention_test PRIVATE mt-attention GTest::gtest GTest::gtest_main)
+target_compile_features(multi_head_attention_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
@@ -118,3 +124,4 @@ gtest_discover_tests(linear_test)
 gtest_discover_tests(embedding_test)
 gtest_discover_tests(softmax_test)
 gtest_discover_tests(attention_test)
+gtest_discover_tests(multi_head_attention_test)
