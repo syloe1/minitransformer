@@ -65,7 +65,9 @@ add_library(mt-nn STATIC
     src/nn/linear.h
     src/nn/linear.cpp
     src/nn/embedding.h
-    src/nn/embedding.cpp)
+    src/nn/embedding.cpp
+    src/nn/softmax.h
+    src/nn/softmax.cpp)
 target_include_directories(mt-nn PUBLIC src)
 target_link_libraries(mt-nn PUBLIC mt-tensor)
 target_compile_features(mt-nn PUBLIC cxx_std_20)
@@ -91,8 +93,13 @@ add_executable(embedding_test test/embedding_test.cpp)
 target_link_libraries(embedding_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
 target_compile_features(embedding_test PRIVATE cxx_std_20)
 
+add_executable(softmax_test test/softmax_test.cpp)
+target_link_libraries(softmax_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
+target_compile_features(softmax_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
 gtest_discover_tests(linear_test)
 gtest_discover_tests(embedding_test)
+gtest_discover_tests(softmax_test)
