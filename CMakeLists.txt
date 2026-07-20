@@ -73,6 +73,16 @@ target_link_libraries(mt-nn PUBLIC mt-tensor)
 target_compile_features(mt-nn PUBLIC cxx_std_20)
 
 # ---------------------------------------------------------------------------
+# Library: rope
+# ---------------------------------------------------------------------------
+add_library(mt-rope STATIC
+    src/rope/rope.h
+    src/rope/rope.cpp)
+target_include_directories(mt-rope PUBLIC src)
+target_link_libraries(mt-rope PUBLIC mt-tensor)
+target_compile_features(mt-rope PUBLIC cxx_std_20)
+
+# ---------------------------------------------------------------------------
 # Library: attention
 # ---------------------------------------------------------------------------
 add_library(mt-attention STATIC
@@ -117,6 +127,10 @@ add_executable(multi_head_attention_test test/multi_head_attention_test.cpp)
 target_link_libraries(multi_head_attention_test PRIVATE mt-attention GTest::gtest GTest::gtest_main)
 target_compile_features(multi_head_attention_test PRIVATE cxx_std_20)
 
+add_executable(rope_test test/rope_test.cpp)
+target_link_libraries(rope_test PRIVATE mt-rope GTest::gtest GTest::gtest_main)
+target_compile_features(rope_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
@@ -125,3 +139,4 @@ gtest_discover_tests(embedding_test)
 gtest_discover_tests(softmax_test)
 gtest_discover_tests(attention_test)
 gtest_discover_tests(multi_head_attention_test)
+gtest_discover_tests(rope_test)
