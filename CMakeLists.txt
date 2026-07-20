@@ -87,6 +87,16 @@ target_link_libraries(mt-rope PUBLIC mt-tensor)
 target_compile_features(mt-rope PUBLIC cxx_std_20)
 
 # ---------------------------------------------------------------------------
+# Library: transformer
+# ---------------------------------------------------------------------------
+add_library(mt-transformer STATIC
+    src/transformer/decoder_block.h
+    src/transformer/decoder_block.cpp)
+target_include_directories(mt-transformer PUBLIC src)
+target_link_libraries(mt-transformer PUBLIC mt-attention mt-nn mt-rope)
+target_compile_features(mt-transformer PUBLIC cxx_std_20)
+
+# ---------------------------------------------------------------------------
 # Library: attention
 # ---------------------------------------------------------------------------
 add_library(mt-attention STATIC
@@ -95,7 +105,7 @@ add_library(mt-attention STATIC
     src/attention/multi_head_attention.h
     src/attention/multi_head_attention.cpp)
 target_include_directories(mt-attention PUBLIC src)
-target_link_libraries(mt-attention PUBLIC mt-nn)
+target_link_libraries(mt-attention PUBLIC mt-nn mt-rope)
 target_compile_features(mt-attention PUBLIC cxx_std_20)
 
 # ---------------------------------------------------------------------------
@@ -143,6 +153,10 @@ add_executable(rms_norm_test test/rms_norm_test.cpp)
 target_link_libraries(rms_norm_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
 target_compile_features(rms_norm_test PRIVATE cxx_std_20)
 
+add_executable(decoder_block_test test/decoder_block_test.cpp)
+target_link_libraries(decoder_block_test PRIVATE mt-transformer GTest::gtest GTest::gtest_main)
+target_compile_features(decoder_block_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
@@ -154,3 +168,4 @@ gtest_discover_tests(multi_head_attention_test)
 gtest_discover_tests(rope_test)
 gtest_discover_tests(mlp_test)
 gtest_discover_tests(rms_norm_test)
+gtest_discover_tests(decoder_block_test)

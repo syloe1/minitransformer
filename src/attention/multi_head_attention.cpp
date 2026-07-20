@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <vector>
 
+#include "rope/rope.h"
+
 namespace mt {
 
 // ===========================================================================
@@ -31,7 +33,8 @@ MultiHeadAttention::MultiHeadAttention(const std::size_t d_model,
 // Forward pass
 // ===========================================================================
 
-auto MultiHeadAttention::forward(const Tensor &X) const -> Tensor {
+auto MultiHeadAttention::forward(const Tensor& X,
+                                 const std::size_t start_pos) const -> Tensor {
 
   if (X.ndim() != 2) {
     std::ostringstream oss;
@@ -87,7 +90,12 @@ auto MultiHeadAttention::forward(const Tensor &X) const -> Tensor {
       }
     }
 
-    // --- single-head attention → [seq, d_head_] ------------------
+    // --- RoPE (optional) ---------------------------------------------
+    if (rope_) {
+      rope_->forward(Q_h, K_h, start_pos);
+    }
+
+    // --- single-head attention  → [seq, d_head_] ------------------
     const Tensor head_out = attention_.forward(Q_h, K_h, V_h);
 
     // --- write head output into concat buffer --------------------
