@@ -91,7 +91,9 @@ target_compile_features(mt-rope PUBLIC cxx_std_20)
 # ---------------------------------------------------------------------------
 add_library(mt-transformer STATIC
     src/transformer/decoder_block.h
-    src/transformer/decoder_block.cpp)
+    src/transformer/decoder_block.cpp
+    src/transformer/kv_cache.h
+    src/transformer/kv_cache.cpp)
 target_include_directories(mt-transformer PUBLIC src)
 target_link_libraries(mt-transformer PUBLIC mt-attention mt-nn mt-rope)
 target_compile_features(mt-transformer PUBLIC cxx_std_20)
@@ -157,6 +159,10 @@ add_executable(decoder_block_test test/decoder_block_test.cpp)
 target_link_libraries(decoder_block_test PRIVATE mt-transformer GTest::gtest GTest::gtest_main)
 target_compile_features(decoder_block_test PRIVATE cxx_std_20)
 
+add_executable(kv_cache_test test/kv_cache_test.cpp)
+target_link_libraries(kv_cache_test PRIVATE mt-transformer GTest::gtest GTest::gtest_main)
+target_compile_features(kv_cache_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
@@ -169,3 +175,4 @@ gtest_discover_tests(rope_test)
 gtest_discover_tests(mlp_test)
 gtest_discover_tests(rms_norm_test)
 gtest_discover_tests(decoder_block_test)
+gtest_discover_tests(kv_cache_test)
