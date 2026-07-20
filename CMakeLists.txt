@@ -69,7 +69,9 @@ add_library(mt-nn STATIC
     src/nn/softmax.h
     src/nn/softmax.cpp
     src/nn/mlp.h
-    src/nn/mlp.cpp)
+    src/nn/mlp.cpp
+    src/nn/rms_norm.h
+    src/nn/rms_norm.cpp)
 target_include_directories(mt-nn PUBLIC src)
 target_link_libraries(mt-nn PUBLIC mt-tensor)
 target_compile_features(mt-nn PUBLIC cxx_std_20)
@@ -137,6 +139,10 @@ add_executable(mlp_test test/mlp_test.cpp)
 target_link_libraries(mlp_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
 target_compile_features(mlp_test PRIVATE cxx_std_20)
 
+add_executable(rms_norm_test test/rms_norm_test.cpp)
+target_link_libraries(rms_norm_test PRIVATE mt-nn GTest::gtest GTest::gtest_main)
+target_compile_features(rms_norm_test PRIVATE cxx_std_20)
+
 include(GoogleTest)
 gtest_discover_tests(tensor_test)
 gtest_discover_tests(matmul_test)
@@ -147,3 +153,4 @@ gtest_discover_tests(attention_test)
 gtest_discover_tests(multi_head_attention_test)
 gtest_discover_tests(rope_test)
 gtest_discover_tests(mlp_test)
+gtest_discover_tests(rms_norm_test)
